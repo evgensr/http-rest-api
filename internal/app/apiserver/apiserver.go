@@ -37,12 +37,10 @@ func (s *APIserver) Start() error {
 	s.ConfigerRouter()
 
 	if err := s.configerStore(); err != nil {
-
 		return err
-
 	}
 
-	s.logger.Info("staring apiserver")
+	s.logger.Info("Staring apiserver")
 	return http.ListenAndServe(s.config.BindAddr, s.router)
 }
 
