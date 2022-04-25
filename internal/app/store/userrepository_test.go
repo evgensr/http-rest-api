@@ -13,9 +13,7 @@ func TestUserRepositore_Create(t *testing.T) {
 	s, teardown := store.TestStore(t, databaseURL)
 	defer teardown("users")
 
-	u, err := s.User().Create(&model.User{
-		Email: "user@gmail.com",
-	})
+	u, err := s.User().Create(model.TestUser(t))
 	if err != nil {
 		log.Println(err)
 	}
@@ -29,14 +27,15 @@ func TestUserRepository_FindByEmail(t *testing.T) {
 	s, teardown := store.TestStore(t, databaseURL)
 	defer teardown("users")
 
-	email := "user@gmail.com"
+	email := "test@gmail.com"
 
 	_, err := s.User().FindByEmail(email)
 	assert.Error(t, err)
 
-	u, err := s.User().Create(&model.User{
-		Email: email,
-	})
+	u := model.TestUser(t)
+	u.Email = email
+	s.User().Create(u)
+	u, err = s.User().FindByEmail(email)
 	assert.NoError(t, err)
 	assert.NotNil(t, u)
 
