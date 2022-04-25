@@ -13,7 +13,10 @@ pg:
 
 open-adminer:
 	open http://localhost:8081/?pgsql=db&username=postgres&db=restapi_dev&ns=public
- 
+
+run:
+	go build -v ./cmd/apiserver && ./apiserver
+
 .DEFAULT_GOAL := build
 
 
